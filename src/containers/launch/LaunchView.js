@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { AppConfig } from '@constants/';
 import {
   View,
   Text,
@@ -8,10 +9,12 @@ import {
   Alert,
   StatusBar,
   StyleSheet,
+  ScrollView,
   ActivityIndicator,
+  FlatList, 
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { FormLabel, FormInput, Button, List, ListItem } from 'react-native-elements';
 
 // Consts and Libs
 import { AppStyles, AppSizes, AppColors } from '@theme/';
@@ -24,29 +27,70 @@ import { Spacer } from '@components/ui/';
 class SearchView extends Component {
   static componentName = 'LaunchView';
 
-//   static propTypes = {
-//     login: PropTypes.func.isRequired,
-//     getRecipes: PropTypes.func.isRequired,
-//     getMeals: PropTypes.func.isRequired,
-//   }
+  static propTypes = {
+    getTokenViaOAuth: PropTypes.func.isRequired,
+    getABiCatalogRecords: PropTypes.func.isRequired,
+    // getMeals: PropTypes.func.isRequired,
+  }
 
   constructor(props) {
     super(props)
-    this.state = { searching: false, searchValue: '' }    
+
+    this.state = { 
+      searchValue: '',
+    }  
   }
 
   searchPressed() {
-    console.log(`searchPressed => ${this.state.searchValue}`);  
-    this.setState({ searching: true })
-    // this.props.fetchRecipes(this.state.ingredientsInput).then( (res) => {
-    //   this.setState({searching: false })
-    // });
+    //console.log(`searchPressed => ${this.state.searchValue}`);  
+    //this.setState({ searching: true })
+    this.props.getTokenViaOAuth(AppConfig.OAuth.userName)
+        .then(() => {
+            this.props.getABiCatalogRecords(this.state.searchValue)
+            .then((resp) => {
+              // console.debug(`this.props => ${JSON.stringify(this.props.records.hits.fields[0].longItemDescription)}`)
+              //  this.setState({searching: false, records:  this.props.records.hits.fields })
+              //this.setState({ loading: false });
+              console.debug(`loading=> ${this.props.loading}`)
+            });            
+        });
   }  
 
   componentDidMount = () => {
     // Show status bar on app launch
     StatusBar.setHidden(false, true);
+    
   }
+
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          // width: "86%",
+          backgroundColor: "#CED0CE",
+          // marginLeft: "14%"
+        }}
+      />
+    );
+  };  
+
+  renderFooter = () => {
+    if (!this.props.loading) return null;
+
+    return (
+      <View
+        style={{
+          paddingVertical: 50,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <ActivityIndicator 
+          animating size={'large'} />
+      </View>
+    );
+  };  
 
   render = () => (
     // <View style={[AppStyles.containerCentered]}>
@@ -76,8 +120,33 @@ class SearchView extends Component {
             backgroundColor={AppColors.colors.primary}
             onPress={() => this.searchPressed()}
             icon={{name: 'search'}}
-            accessibilityLabel="Search ABi catalog"/>        
+            accessibilityLabel="Search ABi catalog"/>  
 
+        {/* <ActivityIndicator
+          animating = {this.state.searching}
+          color = '#bc2b78'
+          size = "large"
+          style = {styles.activityIndicator}/> */}
+
+        { this.props.records.total > 0 ? 
+          <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+            <FlatList
+              data={this.props.records.hits.fields}
+              renderItem={({ item }) => (
+                // <Text>{item.longItemDescription} {this.props.records.hits.fields[2].longItemDescription}</Text>
+                <ListItem
+                  title={item.longItemDescription}
+                  subtitle={`${item.manufacturer} / ${item.ndc} / ${item.manufacturerCatalogNumber}`}
+                  containerStyle={{ borderBottomWidth: 0 }}
+                />
+              )}
+              keyExtractor={item => item.enterpriseProductIdentifier}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListFooterComponent={this.renderFooter}
+            />
+          </List>
+          : this.renderFooter()
+        }
     </View>    
   );
 }
@@ -91,8 +160,16 @@ const styles = StyleSheet.create({
     buttonColor: {
       backgroundColor: AppColors.colors.primary,
     },  
+    scrollSection: {
+      flex: 0.8
+    },  
+    activityIndicator: {
+      // flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 80
+   }      
   });
-  
 
 /* Export Component ==================================================================== */
 export default SearchView;
