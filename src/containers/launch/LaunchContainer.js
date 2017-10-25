@@ -5,7 +5,7 @@ import * as OAuthActions from '@redux/oauth/actions'
 import * as ABiActions from '@redux/abi/actions';
 
 // The component we're mapping to
-import LaunchView from './LaunchView';
+import AskABiSearch from './AskABiSearch';
 
 // What data from the store shall we send to the component?
 const mapStateToProps = state => ({
@@ -28,4 +28,4 @@ const mapDispatchToProps = {
   getABiCatalogRecords: ABiActions.getABiCatalogRecords,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LaunchView);
+export default connect(mapStateToProps, mapDispatchToProps)(AskABiSearch);

@@ -18,6 +18,22 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  viewlistItemContainer: {
+    borderBottomWidth: 0
+  },
+  listItemSeparator: {
+    height: 1,
+    backgroundColor: "#CED0CE",
+  },
+  viewContainer: {
+    borderTopWidth: 0, 
+    borderBottomWidth: 0, 
+    backgroundColor: Colors.background
+  }, 
+  activityIndicator: {
+    paddingVertical: 50,
+    borderColor: "#CED0CE"
+  }, 
   windowSize: {
     height: Sizes.screen.height,
     width: Sizes.screen.width,

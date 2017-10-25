@@ -16,7 +16,7 @@ export default function routerReducer(state = initialState, action) {
 
     // ...other actions
 
-    default :
+    default : 
       return state;
   }
 }

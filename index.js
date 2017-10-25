@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
 import AppContainer from './src/';
 
-AppRegistry.registerComponent('dmlesMobileReact', () => AppContainer);
+AppRegistry.registerComponent('AskABi', () => AppContainer);

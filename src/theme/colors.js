@@ -8,7 +8,7 @@
 const app = {
   background: '#E9EBEE',
   cardBackground: '#FFFFFF',
-  listItemBackground: '#FFFFFF',
+  listItemBackground: '#E9EBEE',
 };
 
 const brand = {

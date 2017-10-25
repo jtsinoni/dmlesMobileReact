@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 
 // Our custom reducers
 // We need to import each one here and add them to the combiner at the bottom
-//import router from '@redux/router/reducer';
+import router from '@redux/router/reducer';
 import oauth from '@redux/oauth/reducer';
 import abi from '@redux/abi/reducer';
 // import sideMenu from '@redux/sidemenu/reducer';
@@ -13,6 +13,7 @@ import abi from '@redux/abi/reducer';
 
 // Combine all
 const appReducer = combineReducers({
+  router,
   oauth,
   abi,
 //   sideMenu,

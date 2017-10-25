@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.dmlesmobilereact"
+        applicationId "mil.jmlfdc.lc.mobile"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
