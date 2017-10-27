@@ -8,6 +8,7 @@ import { combineReducers } from 'redux';
 import router from '@redux/router/reducer';
 import oauth from '@redux/oauth/reducer';
 import abi from '@redux/abi/reducer';
+import nav from '@redux/router/nav';
 // import sideMenu from '@redux/sidemenu/reducer';
 // import user from '@redux/user/reducer';
 
@@ -16,6 +17,7 @@ const appReducer = combineReducers({
   router,
   oauth,
   abi,
+  nav,
 //   sideMenu,
 //   user,
 });

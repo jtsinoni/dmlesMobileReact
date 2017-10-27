@@ -8,14 +8,18 @@ import { createLogger } from 'redux-logger';
 import { Router } from 'react-native-router-flux';
 
 // Consts and Libs
-import { AppStyles } from '@theme/';
+import { AppStyles, AppConfig } from '@theme/';
 import AppRoutes from '@navigation/';
 
 // All redux reducers (rolled into one mega-reducer)
 import rootReducer from '@redux/index';
 
+import AppWithNavigationState from './navigators/AppNavigator';
+
 // Connect RNRF with Redux
 const RouterWithRedux = connect()(Router);
+
+
 
 // middleware that logs actions
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
@@ -37,7 +41,8 @@ const store = configureStore({});
 export default function AppContainer() {
   return (
     <Provider store={store}>
-      <RouterWithRedux scenes={AppRoutes} style={AppStyles.appContainer} />
+      <AppWithNavigationState style={AppStyles.appContainer}/>
+      {/* <RouterWithRedux scenes={AppRoutes} style={AppStyles.appContainer} /> */}
     </Provider>    
   );
 }

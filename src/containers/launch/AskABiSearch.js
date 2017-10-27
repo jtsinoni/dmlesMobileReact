@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AppConfig } from '@constants/';
 import {
   View,
   Text,
@@ -21,6 +20,10 @@ import { AppStyles, AppSizes, AppColors } from '@theme/';
 // Components
 import { Spacer } from '@components/ui/';
 
+import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+
+import { AppConfig } from '@constants/';
 
 /* Component ==================================================================== */
 class AskABiSearch extends Component {
@@ -89,7 +92,7 @@ class AskABiSearch extends Component {
         title={item.longItemDescription}
         subtitle={subtitle}
         containerStyle={AppStyles.viewlistItemContainer}
-        onPress={Actions.askABiDetails}
+        onPress={() => this.props.navigation.navigate('ABiDetailScreen', {name: 'Lucy'})}
       />
     );  
   }
@@ -125,6 +128,15 @@ class AskABiSearch extends Component {
     </View>    
   );
 }
+
+AskABiSearch.navigationOptions = {
+  title: `${AppConfig.appName}`,
+};
+
+const mapDispatchToProps = dispatch => ({
+  abiDetailPage: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'ABiDetailPage' })),
+});
 
 /* Export Component ==================================================================== */
 export default AskABiSearch;
