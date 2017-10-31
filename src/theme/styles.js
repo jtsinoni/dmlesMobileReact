@@ -3,6 +3,9 @@ import Fonts from './fonts';
 import Sizes from './sizes';
 
 export default {
+  note: {
+      color: '#d3d3d3'
+  },
   appContainer: {
     backgroundColor: '#FFF',
   },
@@ -231,17 +234,18 @@ export default {
 
   // Navbar
   navbar: {
-    backgroundColor: Colors.brand.primary,
+    backgroundColor: Colors.colors.logiColeBlue,
     borderBottomWidth: 0,
   },
   navbarTitle: {
-    color: '#ffffff',
+    color: Colors.colors.white,
     fontWeight: 'bold',
-    fontFamily: Fonts.base.family,
-    fontSize: Fonts.base.size,
+    alignSelf: 'center',
+    // fontFamily: Fonts.base.family,
+    // fontSize: Fonts.base.size,
   },
   navbarButton: {
-    tintColor: '#ffffff',
+    tintColor: Colors.colors.white,
   },
 
   // TabBar

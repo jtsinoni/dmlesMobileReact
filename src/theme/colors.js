@@ -1,14 +1,9 @@
-/**
- * App Theme - Colors
- *
- * React Native Starter App
- * https://github.com/mcnamee/react-native-starter-app
- */
-
 const app = {
   background: '#E9EBEE',
   cardBackground: '#FFFFFF',
   listItemBackground: '#E9EBEE',
+  textColor:        '#000',
+  backgroundColor:  '#fff',  
 };
 
 const brand = {
@@ -27,6 +22,7 @@ const colors = {
     dark:       '#222',
     primaryBlue:      '#387ef5',
     logiColeBlue: '#183559',
+    white: '#ffffff',
   }
 }
 

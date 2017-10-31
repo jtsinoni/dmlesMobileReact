@@ -11,7 +11,6 @@ import {
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { FormLabel, FormInput, Button, List, ListItem } from 'react-native-elements';
 
 // Consts and Libs
@@ -26,7 +25,7 @@ import { connect } from 'react-redux';
 import { AppConfig } from '@constants/';
 
 /* Component ==================================================================== */
-class AskABiSearch extends Component {
+class SearchScreen extends Component {
   static componentName = 'LaunchView';
 
   static propTypes = {
@@ -92,7 +91,7 @@ class AskABiSearch extends Component {
         title={item.longItemDescription}
         subtitle={subtitle}
         containerStyle={AppStyles.viewlistItemContainer}
-        onPress={() => this.props.navigation.navigate('ABiDetailScreen', {name: 'Lucy'})}
+        onPress={() => this.props.navigation.navigate('DetailScreen', {item: item})}
       />
     );  
   }
@@ -129,14 +128,5 @@ class AskABiSearch extends Component {
   );
 }
 
-AskABiSearch.navigationOptions = {
-  title: `${AppConfig.appName}`,
-};
-
-const mapDispatchToProps = dispatch => ({
-  abiDetailPage: () =>
-    dispatch(NavigationActions.navigate({ routeName: 'ABiDetailPage' })),
-});
-
 /* Export Component ==================================================================== */
-export default AskABiSearch;
+export default SearchScreen;
