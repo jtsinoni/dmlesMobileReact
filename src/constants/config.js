@@ -22,15 +22,15 @@ export default {
   },
 
   // TODO: Get from UtilService (need to convert first)
-  host: 'http://192.168.43.242:8080/',
+  host: 'http://localhost:8080/',
   clientLogFileName: 'client.log',
   clientDN: 'CN=TSINONIS.JOHN.NMN.1401922977,OU=CONTRACTOR,OU=PKI,OU=DoD,O=U.S. Government,C=US',
   apiHosts: {
-    btBaseUrl: 'http://192.168.43.242:8080/'
+    btBaseUrl: 'http://localhost:8080/'
   },
   OAuth: {
-    userName: 'user.admin.123',
-    password: 'password',
+    userName: '@',
+    password: '',
   },
   notifications: {
     enabled: true

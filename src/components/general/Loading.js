@@ -9,23 +9,22 @@ import { AppStyles } from '@theme/';
 import { Spacer, Text } from '@ui/';
 
 /* Component ==================================================================== */
-const Loading = ({ text, transparent }) => (
+const Loading = ({ text }) => (
   <View
     style={[
+      AppStyles.activityIndicator,
       AppStyles.container,
       AppStyles.containerCentered,
-      transparent && { backgroundColor: 'rgba(255,255,255,0.75)' },
     ]}
   >
     <ActivityIndicator
       animating
       size={'large'}
-      color={transparent ? '#000' : '#AAA'}
     />
 
-    <Spacer size={10} />
+    <Spacer size={20} />
 
-    {!!text && <Text>{text}</Text>}
+    {text && <Text style={AppStyles.containerCentered}>{text}</Text>}
   </View>
 );
 

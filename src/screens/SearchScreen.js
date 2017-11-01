@@ -4,14 +4,12 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   Alert,
   StatusBar,
-  ScrollView,
-  ActivityIndicator,
   FlatList,
+  Platform,
 } from 'react-native';
-import { FormLabel, FormInput, Button, List, ListItem } from 'react-native-elements';
+import { FormInput, Button, List, ListItem } from 'react-native-elements';
 
 // Consts and Libs
 import { AppStyles, AppSizes, AppColors } from '@theme/';
@@ -23,6 +21,7 @@ import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { AppConfig } from '@constants/';
+import Loading from '@components/general/Loading';
 
 /* Component ==================================================================== */
 class SearchScreen extends Component {
@@ -45,10 +44,9 @@ class SearchScreen extends Component {
   }  
 
   componentDidMount = () => {
-    // Show status bar on app launch
-    StatusBar.setHidden(false, true);
+    // Do not show status bar on app launch
+    StatusBar.setHidden(true, true);
     this.props.getTokenViaOAuth(AppConfig.OAuth.userName);
-    
   }
 
   renderSeparator = () => {
@@ -61,10 +59,7 @@ class SearchScreen extends Component {
     if (!this.props.loading) return null;
 
     return (
-      <View style={AppStyles.activityIndicator}>
-        <ActivityIndicator 
-          animating size={'large'} />
-      </View>
+      <Loading text={'Searching ABi Catalog ...'} />
     );
   };  
 
@@ -88,6 +83,7 @@ class SearchScreen extends Component {
     
     return (
       <ListItem
+        hideChevron={(Platform.OS === 'android') ? true : false}
         title={item.longItemDescription}
         subtitle={subtitle}
         containerStyle={AppStyles.viewlistItemContainer}
