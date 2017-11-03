@@ -35,6 +35,7 @@ const text = {
 
 const borders = {
   border: '#D0D1D5',
+  card: '#d6d7da',
 };
 
 const tabbar = {

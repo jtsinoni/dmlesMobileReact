@@ -254,4 +254,22 @@ export default {
     borderTopColor: Colors.border,
     borderTopWidth: 1,
   },
+
+  // Card
+  card: {
+    marginLeft: 0,
+    marginRight: 0,
+    borderRadius: 4,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: Colors.card,    
+  }, 
+  
+  // Button Group
+  buttonGroup: {
+    flex: .01,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },  
 };

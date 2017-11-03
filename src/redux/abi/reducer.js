@@ -13,6 +13,20 @@ export default function abiReducer(state = initialState, action) {
         loading: action.loading,
       };
     }
+    case types.GET_ABI_EQUIVALENT_RECORDS : {
+      return {
+        ...state,
+        records: action.records,
+        loading: action.loading,
+      };
+    }
+    case types.GET_ABI_RELATED_PRODUCTS : {
+      return {
+        ...state,
+        records: action.records,
+        loading: action.loading,
+      };
+    }        
     // ...other actions
 
     default :

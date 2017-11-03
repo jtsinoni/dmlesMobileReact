@@ -4,6 +4,8 @@ export default {
   // App Details
   appName: 'Ask ABi',
   productDetailsScreenTitleName: 'Product Details',
+  equivalentProductsScreenTitleName: 'Equivalent Products',
+  relatedProductsScreenTitleName: 'Related Products',
 
   // Build Configuration - eg. Debug or Release?
   DEV: __DEV__,
@@ -22,11 +24,11 @@ export default {
   },
 
   // TODO: Get from UtilService (need to convert first)
-  host: 'http://localhost:8080/',
+  host: 'http://192.168.1.13:8080/',
   clientLogFileName: 'client.log',
   clientDN: 'CN=TSINONIS.JOHN.NMN.1401922977,OU=CONTRACTOR,OU=PKI,OU=DoD,O=U.S. Government,C=US',
   apiHosts: {
-    btBaseUrl: 'http://localhost:8080/'
+    btBaseUrl: 'http://192.168.1.13:8080/'
   },
   OAuth: {
     userName: '@',
