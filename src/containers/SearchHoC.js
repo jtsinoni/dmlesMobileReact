@@ -21,7 +21,10 @@ export default (Comp) => {
    // What data from the store shall we send to the component?
    const mapStateToProps = state => ({
       token: state.oauth.token,
-      records: state.abi.records,
+      catalogRecords: state.abi.catalogRecords,
+      siteCatalogRecords: state.abi.siteCatalogRecords,
+      relatedRecords: state.abi.relatedRecords,
+      equivalentRecords: state.abi.equivalentRecords,
       loading: state.abi.loading,
    });
 
@@ -31,6 +34,7 @@ export default (Comp) => {
       getABiCatalogRecords: ABiActions.getABiCatalogRecords,
       getABiRelatedProducts: ABiActions.getABiRelatedProducts,
       getABiEquivalentProducts: ABiActions.getABiEquivalentProducts,
+      getSiteCatalogRecords: ABiActions.getSiteCatalogRecords,
    };
 
    //// The component we're mapping to

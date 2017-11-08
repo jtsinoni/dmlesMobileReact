@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, FlatList, Platform, } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { View, Text, FlatList, Platform, StyleSheet,
+         TouchableHighlight, TouchableOpacity, Icon } from 'react-native';
+import { List, ListItem, Badge } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 // Consts and Libs
@@ -22,11 +23,45 @@ class SearchListScreen extends Component {
       super(props)
    }
 
+   getSiteCatalogRecords = (item) => {
+      this.props.navigation.navigate('SiteCatalogListScreen', {item: item})
+   } 
+
    renderSeparator = () => {
       return (
          <View style={AppStyles.listItemSeparator} />
       );
    };
+
+   renderListItemBadge = (item) => {
+      return (
+         <TouchableOpacity
+            onPress={() => this.getSiteCatalogRecords(item)}
+            style={AppStyles.listItemBadge} >
+            <Text style={{ color: AppColors.colors.white }}>{item.siteCount}</Text>
+         </TouchableOpacity>
+      );
+   }
+   renderBadge = (value) => {
+      return (
+         <Badge
+            value={value}
+            containerStyle={{ backgroundColor: AppColors.colors.primaryBlue }} />
+      );
+   }
+
+   renderHeader = () => {
+      return (
+         <View style={styles.header}>
+            {this.renderBadge(this.props.records.total)}
+            <Text> Items found </Text>
+            <Text>(</Text>
+            {this.renderBadge(this.props.records.took)}
+            <Text>milliseconds)</Text>
+         </View>
+
+      );
+   }
 
    renderFooter = () => {
       if (!this.props.loading) return null;
@@ -62,27 +97,39 @@ class SearchListScreen extends Component {
             subtitle={subtitle}
             containerStyle={AppStyles.viewlistItemContainer}
             onPress={() => this.props.navigation.navigate(this.props.detailsScreen, { item: item })}
+            badge={{ element: this.renderListItemBadge(item) }}
          />
       );
    }
 
    render = () => (
-      <View>
-         {this.props.records.total > 0 ?
-            <List containerStyle={AppStyles.viewContainer}>
-               <FlatList
-                  data={this.props.records.hits.fields}
-                  renderItem={this.renderListItem}
-                  keyExtractor={item => item.enterpriseProductIdentifier}
-                  ItemSeparatorComponent={this.renderSeparator}
-                  ListFooterComponent={this.renderFooter}
-               />
-            </List>
+      <View style={AppStyles.viewContainer}>
+
+         {this.props.records.total >= 0 ?
+            <View>
+               {this.renderHeader()}
+               <List containerStyle={AppStyles.viewContainer}>
+                  <FlatList
+                     data={this.props.records.hits.fields}
+                     renderItem={this.renderListItem}
+                     keyExtractor={item => item.enterpriseProductIdentifier}
+                     ItemSeparatorComponent={this.renderSeparator}
+                  />
+               </List>
+            </View>
             : this.renderFooter()
          }
       </View>
    );
 }
+
+const styles = StyleSheet.create({
+   header: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start', padding: 15,
+      paddingBottom: 0,
+   },
+ });
 
 SearchListScreen.defaultProps = {
    detailsScreen: 'DetailsScreen'

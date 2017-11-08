@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StatusBar, } from 'react-native';
-import { FormInput, Button, List, ListItem } from 'react-native-elements';
+import { View, } from 'react-native';
 
-// Consts and Libs
-import { AppColors } from '@theme/';
-
-// Components
-import { Spacer } from '@components/ui/';
-
-import { AppConfig } from '@constants/';
 import { SearchListScreen } from '@screens/';
 
 /* Component ==================================================================== */
@@ -20,9 +12,6 @@ class RelatedProductsListScreen extends Component {
 
    constructor(props) {
       super(props)
-      this.state = {
-         searchValue: '',
-      }
    }
 
    productGroup() {
@@ -42,6 +31,7 @@ class RelatedProductsListScreen extends Component {
       return (
          <View>
             <SearchListScreen {...this.props} 
+                              records={this.props.relatedRecords}
                               detailsScreen='DetailsScreen'
                               searchingText='Searching for related products ...' />
          </View>

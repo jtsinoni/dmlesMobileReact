@@ -1,29 +1,62 @@
 import * as types from '../types'
 
 // Set initial state
-const initialState = {records: {total: 0, hits: { fields: [] }}};
+const initialState = {
+  siteCatalogRecords: {
+    total: -1, 
+    hits: { 
+      fields: [] 
+    }
+  },  
+  catalogRecords: {
+    total: -1, 
+    hits: { 
+      fields: [] 
+    }
+  },
+  relatedRecords: {
+    total: -1, 
+    hits: { 
+      fields: [] 
+    }
+  },
+  equivalentRecords: {
+    total: -1, 
+    hits: { 
+      fields: [] 
+    }
+  },  
+  loading: false,
+};
 
 export default function abiReducer(state = initialState, action) {
 
   switch (action.type) {
+    case types.GET_SITE_CATALOG_RECORDS : {
+      return {
+        ...state,
+        siteCatalogRecords: action.siteCatalogRecords,
+        loading: action.loading,
+      };
+    }    
     case types.GET_ABI_CATALOG_RECORDS : {
       return {
         ...state,
-        records: action.records,
+        catalogRecords: action.catalogRecords,
         loading: action.loading,
       };
     }
     case types.GET_ABI_EQUIVALENT_RECORDS : {
       return {
         ...state,
-        records: action.records,
+        equivalentRecords: action.equivalentRecords,
         loading: action.loading,
       };
     }
     case types.GET_ABI_RELATED_PRODUCTS : {
       return {
         ...state,
-        records: action.records,
+        relatedRecords: action.relatedRecords,
         loading: action.loading,
       };
     }        

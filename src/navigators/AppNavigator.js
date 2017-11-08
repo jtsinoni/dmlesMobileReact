@@ -5,9 +5,9 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import { View, Text, ScrollView, } from 'react-native'
 
 import { SearchHoC } from '@containers/';
-import { RelatedProductsListScreen, EquivalentProductsListScreen, SearchScreen, 
-         ProductDetailsScreen, DetailsScreen,
-         EquivalentProductsScreen, RelatedProductsScreen }  from '@screens/';
+import { RelatedProductsListScreen, EquivalentProductsListScreen, 
+         EquivalentProductsScreen, SiteCatalogListScreen,
+         SearchScreen, ProductDetailsScreen, DetailsScreen, }  from '@screens/';
 import { AppConfig } from '@constants/';
 
 const navigationConfig = {
@@ -34,19 +34,6 @@ export const AppNavigator = StackNavigator({
         headerTitle: AppConfig.productDetailsScreenTitleName,
       },
     },
-    
-    EquivalentProductsScreen: { 
-      screen: EquivalentProductsScreen,
-      navigationOptions: {
-        headerTitle: AppConfig.equivalentProductsScreenTitleName,
-      },
-    },     
-    RelatedProductsScreen: { 
-      screen: RelatedProductsScreen,
-      navigationOptions: {
-        headerTitle: AppConfig.relatedProductsScreenTitleName,
-      },
-    }, 
     EquivalentProductsListScreen: { 
       screen: SearchHoC(EquivalentProductsListScreen),
       navigationOptions: {
@@ -58,7 +45,13 @@ export const AppNavigator = StackNavigator({
       navigationOptions: {
         headerTitle: AppConfig.relatedProductsScreenTitleName,
       },
-    },         
+    },
+    SiteCatalogListScreen: { 
+      screen: SearchHoC(SiteCatalogListScreen),
+      navigationOptions: {
+        headerTitle: AppConfig.siteCatalogScreenTitleName,
+      },
+    },             
 }, navigationConfig );
 
 const AppWithNavigationState = ({ dispatch, nav }) => (

@@ -271,5 +271,17 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },  
+  }, 
+  
+  listItemBadge: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    backgroundColor: Colors.colors.primaryBlue,
+    borderRadius: 10,
+    marginLeft: 10,
+  },
 };

@@ -2,32 +2,71 @@ import * as types from '../types'
 import { ApiService } from '@lib/'
 import { AppConfig } from '@constants/';
 
+function getHeaders(getState, verb) {
+  let headers = {
+    'Authorization': `Token ${getState().oauth.token}`,
+    'Accept': 'application/json',
+    'ClientId': 'dmles',
+    'X-SSL-Client-S-DN': `${AppConfig.clientDN}`
+  }
+
+  if(verb === 'POST') {
+    headers["Content-Type"] = 'application/json';
+  }
+  return headers;
+}
+
+function getAPiService(service) {
+  return new ApiService(service);
+}
+
+function getSiteCatalogRecordsByType(item, dispatchTo) {
+  return (dispatch, getState) => {
+    dispatch(dispatchTo({ records: [], loading: true }));
+
+    let action = null;
+    // let errorMessage = `Failed to retreive ABi catalog records:\n\t Enterprise or product identifier not provided`;
+
+    let hasProductIdentifier = (item.mmcProductIdentifier != null);
+    if(hasProductIdentifier) {
+      action = `getSiteCatalogByProductId?productSeqId=${item.mmcProductIdentifier}`;
+    } else {
+      action = `getSiteCatalogByEnterpriseId?enterpriseProductIdentifier=${item.enterpriseProductIdentifier}`;
+    }
+
+    let service = getAPiService('AbiSiteCatalog');
+    let url = service.determineUrl(action);
+    let headers = getHeaders(getState, 'GET');
+
+    return service.get(url, headers)
+      .then((resp) => {
+        dispatch(dispatchTo({ records: resp, loading: false }));
+      })
+      .catch((error) => {
+        dispatch(setSiteCatalogRecords({ records: [], loading: false }));
+        console.error(`Failed to retreive ABi catalog records:\n\t ${error}`);
+      });
+  }
+}
+
 function getABiCatalogRecordsByQueryModel(queryModel, dispatchTo) {
   return (dispatch, getState) => {
-    dispatch(dispatchTo({records: [], loading: true}));
+    dispatch(dispatchTo({ records: [], loading: true }));
 
-    let service = new ApiService('AbiCatalog');
-
+    let service = getAPiService('AbiCatalog');
     let url = service.determineUrl('getABiCatalogRecordESResults');
     let params = queryModel;
-    let token = getState().oauth.token;
-    let headers = {
-        'Authorization': `Token ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'ClientId': 'dmles',
-        'X-SSL-Client-S-DN': `${AppConfig.clientDN}` 
-    }; 
-    
+    let headers = getHeaders(getState, 'POST');
+
     return service.post(url, params, headers)
-        .then((resp) => {
-            dispatch(dispatchTo({records: resp, loading: false}));
-        })
-        .catch((error) => {
-            dispatch(dispatchTo({records: [], loading: false}));
-            console.error(`Failed to retreive ABi records:\n\t ${error}`);
-        });
-  }  
+      .then((resp) => {
+        dispatch(dispatchTo({ records: resp, loading: false }));
+      })
+      .catch((error) => {
+        dispatch(dispatchTo({ records: [], loading: false }));
+        console.error(`Failed to retreive ABi records:\n\t ${error}`);
+      });
+  }
 }
 
 function getQueryModel(field, value) {
@@ -47,64 +86,61 @@ function getQueryModel(field, value) {
   }
 }
 
+function getSearchQueryModel(searchValue) {
+  return { 'queryString': `${searchValue}`, 'filters': [] };
+}
+
 export function getABiRelatedProducts(productGroup) {
-  const queryModel = getQueryModel('productGroup', productGroup); 
+  const queryModel = getQueryModel('productGroup', productGroup);
   return getABiCatalogRecordsByQueryModel(queryModel, setABiRelatedProducts);
 }
 
 export function getABiEquivalentProducts(productSubstituteGroup) {
-  const queryModel = getQueryModel('productSubstituteGroup', productSubstituteGroup); 
+  const queryModel = getQueryModel('productSubstituteGroup', productSubstituteGroup);
   return getABiCatalogRecordsByQueryModel(queryModel, setABiEquivalentProducts);
 }
 
 export function getABiCatalogRecords(searchValue) {
-  return (dispatch, getState) => {
-    dispatch(setABiCatalogRecords({records: [], loading: true}));
+  const queryModel = getSearchQueryModel(searchValue);
+  return getABiCatalogRecordsByQueryModel(queryModel, setABiCatalogRecords);
+}
 
-    let service = new ApiService('AbiCatalog');
+export function getSiteCatalogRecords(item) {
+  return getSiteCatalogRecordsByType(item, setSiteCatalogRecords);
+}
 
-    let url = service.determineUrl('getABiCatalogRecordESResults');
-    let params = {'queryString': `${searchValue}`, 'filters': []};
-    let token = getState().oauth.token;
-    let headers = {
-        'Authorization': `Token ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'ClientId': 'dmles',
-        'X-SSL-Client-S-DN': `${AppConfig.clientDN}` 
-    }; 
-    
-    return service.post(url, params, headers)
-        .then((resp) => {
-            dispatch(setABiCatalogRecords({records: resp, loading: false}));
-        })
-        .catch((error) => {
-            dispatch(setABiCatalogRecords({records: [], loading: false}));
-            console.error(`Failed to retreive ABi records:\n\t ${error}`);
-        });
+export function setSiteCatalogRecords(params) {
+  let { records: siteCatalogRecords, loading } = params;
+  return {
+    type: types.GET_SITE_CATALOG_RECORDS,
+    siteCatalogRecords,
+    loading
   }
 }
 
-export function setABiCatalogRecords({ records, loading }) {
+export function setABiCatalogRecords(params) {
+  let { records: catalogRecords, loading } = params;
   return {
     type: types.GET_ABI_CATALOG_RECORDS,
-    records,
+    catalogRecords,
     loading
   }
 }
 
-export function setABiEquivalentProducts({ records, loading }) {
+export function setABiEquivalentProducts(params) {
+  let { records: equivalentRecords, loading } = params;
   return {
     type: types.GET_ABI_EQUIVALENT_RECORDS,
-    records,
+    equivalentRecords,
     loading
   }
 }
 
-export function setABiRelatedProducts({ records, loading }) {
+export function setABiRelatedProducts(params) {
+  let { records: relatedRecords, loading } = params;
   return {
     type: types.GET_ABI_RELATED_PRODUCTS,
-    records,
+    relatedRecords,
     loading
   }
 }

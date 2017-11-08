@@ -18,7 +18,7 @@ class ProductDetailsScreen extends Component {
   } 
 
   getEquivalentProducts = (item) => {
-    this.props.navigation.navigate('EquivalentProductsScreen', {productSubstituteGroup: item.productSubstituteGroup})
+    this.props.navigation.navigate('EquivalentProductsListScreen', {productSubstituteGroup: item.productSubstituteGroup})
   } 
 
   render() {

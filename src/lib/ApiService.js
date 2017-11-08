@@ -58,7 +58,7 @@ export class ApiService  {
         return this.post(url, null, headers);                   
     }
 
-    get(url) {
+    get(url, headers) {
       return this.xhr(url, null, headers, 'GET');
     }
   

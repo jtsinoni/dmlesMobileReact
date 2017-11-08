@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StatusBar, } from 'react-native';
-import { FormInput, Button, List, ListItem } from 'react-native-elements';
+import { View, StatusBar, Text } from 'react-native';
+import { FormInput, Button, } from 'react-native-elements';
 
 // Consts and Libs
 import { AppColors } from '@theme/';
@@ -21,14 +21,14 @@ class SearchScreen extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { 
+    this.state = {
       searchValue: '',
-    }  
+    }
   }
 
   searchPressed() {
     this.props.getABiCatalogRecords(this.state.searchValue)
-  }  
+  }
 
   componentDidMount = () => {
     // Do not show status bar on app launch
@@ -36,28 +36,28 @@ class SearchScreen extends Component {
     this.props.getTokenViaOAuth(AppConfig.OAuth.userName);
   }
 
-
   render = () => (
     <View>
-        <FormInput 
-            returnKeyType="search"
-            placeholder="Search"
-            onChangeText={(searchValue) => this.setState({searchValue})}
-            value={this.state.searchValue}
-        />
-        <Spacer />
-        <Button
-            raised
-            backgroundColor={AppColors.colors.primary}
-            onPress={() => this.searchPressed()}
-            icon={{name: 'search'}}
-            accessibilityLabel="Search ABi catalog"/>  
+      <FormInput
+        returnKeyType="search"
+        placeholder="Search"
+        onChangeText={(searchValue) => this.setState({ searchValue })}
 
-        <SearchListScreen {...this.props} 
-                          detailsScreen='ProductDetailsScreen'
-                          searchingText='Searching ABi Catalog ...'/>    
+      />
+      <Spacer />
+      <Button
+        raised
+        backgroundColor={AppColors.colors.primary}
+        onPress={() => this.searchPressed()}
+        icon={{ name: 'search' }}
+        accessibilityLabel="Search ABi catalog" />
 
-    </View>    
+      <SearchListScreen {...this.props}
+        records={this.props.catalogRecords}
+        detailsScreen='ProductDetailsScreen'
+        searchingText='Searching ABi Catalog ...' />
+
+    </View>
   );
 }
 

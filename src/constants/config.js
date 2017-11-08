@@ -6,6 +6,7 @@ export default {
   productDetailsScreenTitleName: 'Product Details',
   equivalentProductsScreenTitleName: 'Equivalent Products',
   relatedProductsScreenTitleName: 'Related Products',
+  siteCatalogScreenTitleName: 'Site Catalog Items',
 
   // Build Configuration - eg. Debug or Release?
   DEV: __DEV__,
@@ -31,8 +32,8 @@ export default {
     btBaseUrl: 'http://192.168.1.13:8080/'
   },
   OAuth: {
-    userName: '@',
-    password: '',
+    userName: 'user.admin.123',
+    password: 'password',
   },
   notifications: {
     enabled: true
