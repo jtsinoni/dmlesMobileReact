@@ -8,12 +8,14 @@ import { combineReducers } from 'redux';
 import oauth from '@redux/oauth/reducer';
 import abi from '@redux/abi/reducer';
 import nav from '@redux/nav/reducer';
+import system from '@redux/system/reducer'
 
 // Combine all
 const appReducer = combineReducers({
   oauth,
   abi,
   nav,
+  system,
 });
 
 // Setup root reducer

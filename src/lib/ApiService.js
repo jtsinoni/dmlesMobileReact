@@ -77,10 +77,6 @@ export class ApiService  {
     xhr(url, params, headers, verb) {
       let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
       options.headers = headers;
-    //   console.debug(`url => ${url}`);
-    //   console.debug(`options => ${JSON.stringify(options)}`);
-    //   console.debug(`verb => ${verb}`);
-    //   console.debug(`params => ${JSON.stringify(params)}`);
       return fetch(url, options)
         .then((resp) => {
             let json = resp.json();

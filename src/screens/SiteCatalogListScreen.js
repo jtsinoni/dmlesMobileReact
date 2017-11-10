@@ -8,15 +8,27 @@ import * as Utils from '@utils/'
 
 // Consts and Libs
 import { AppStyles, AppSizes, AppColors } from '@theme/';
+import Loading from '@components/general/Loading';
 
 /* Component ==================================================================== */
 class SiteCatalogListScreen extends Component {
    static propTypes = {
       getSiteCatalogRecords: PropTypes.func.isRequired,
+      getBranchServices: PropTypes.func.isRequired,
+      loaded: PropTypes.bool.isRequired,
+      branchRecords: PropTypes.array.isRequired,
    }
 
    constructor(props) {
       super(props)
+   }
+
+   getBranchServices(item) {
+      // check if branch records have been loaded
+      if(!this.props.branchRecordsLoaded) {
+         this.props.getBranchServices();   
+      }
+      this.props.getSiteCatalogRecords(item);
    }
 
    item() {
@@ -26,17 +38,19 @@ class SiteCatalogListScreen extends Component {
    componentDidMount = () => {
       const item = this.item();
       if (item) {
-         this.props.getSiteCatalogRecords(item);
+         this.getBranchServices(item);
+         // this.props.getBranchServices()
+         //    .then((results) => {
+         //       console.log(`branch count => ${results.length}`)      
+         //    })
+         //    .then(() => {
+         //       this.props.getSiteCatalogRecords(item);      
+         //    })
+         //    .catch((error) => {
+         //       console.error(`${error}`)   
+         //    })
+         
       }
-   }
-
-   renderHeader = () => {
-      return (
-         <View>
-            <Text>Site Catalog Records Header</Text>
-         </View>
-
-      );
    }
 
    renderFooter = () => {
@@ -72,7 +86,7 @@ class SiteCatalogListScreen extends Component {
                {this.renderText((item.orderCost)?Utils.currency(item.orderCost):null, 'Order Cost')}
                {this.renderText(item.orderCount, 'Orders')}
                {this.renderText((item.primarySourcePrice)?Utils.currency(item.primarySourcePrice):null, 'Price')}
-               {this.renderText(item.primarySourcePackCode, 'Packaging')}
+               {this.renderText(`${item.primarySourcePackCode} / ${item.primarySourcePackQuantity}`, 'Packaging')}
             </View>
          </Card>
       );
@@ -81,9 +95,9 @@ class SiteCatalogListScreen extends Component {
    render() {
       return (
          <View style={AppStyles.viewContainer}>
-            {this.props.siteCatalogRecords.length >= 0 ?
+            {this.renderFooter()}
+            {this.props.siteCatalogRecords.length >=0 ?
                <View>
-                  {/* {this.renderHeader()} */}
                   <List containerStyle={AppStyles.viewContainer}>
                      <FlatList
                         data={this.props.siteCatalogRecords}
@@ -93,7 +107,7 @@ class SiteCatalogListScreen extends Component {
                      />
                   </List>
                </View>
-               : this.renderFooter()
+               : null
             }
          </View>
       )

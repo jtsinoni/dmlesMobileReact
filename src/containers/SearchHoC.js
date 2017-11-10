@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // Actions
 import * as OAuthActions from '@redux/oauth/actions'
 import * as ABiActions from '@redux/abi/actions';
+import * as SystemActions from '@redux/system/actions';
 
 export default (Comp) => {
    class SearchAware extends Component {
@@ -25,6 +26,8 @@ export default (Comp) => {
       siteCatalogRecords: state.abi.siteCatalogRecords,
       relatedRecords: state.abi.relatedRecords,
       equivalentRecords: state.abi.equivalentRecords,
+      branchRecords: state.system.branchRecords,
+      loaded: state.system.loaded,
       loading: state.abi.loading,
    });
 
@@ -35,6 +38,7 @@ export default (Comp) => {
       getABiRelatedProducts: ABiActions.getABiRelatedProducts,
       getABiEquivalentProducts: ABiActions.getABiEquivalentProducts,
       getSiteCatalogRecords: ABiActions.getSiteCatalogRecords,
+      getBranchServices: SystemActions.getBranchServices,
    };
 
    //// The component we're mapping to
