@@ -20,23 +20,23 @@ function getAPiService(service) {
   return new ApiService(service);
 }
 
-function setSiteNames(response) {
+function setSiteNames(response, getState) {
   let siteCatalogItems = [...response];
+  let siteItems = [...getState().system.sites.records];
+
   for (let item of siteCatalogItems) {
      if (item.sources && item.sources[0]) {
         item.primarySupplier = item.sources[0].supplierNm;
-        console.debug(`item.primarySupplier => ${item.primarySupplier}`)
         if (item.sources[0].packaging && item.sources[0].packaging[0]) {
            item.primarySourcePackCode = item.sources[0].packaging[0].ipPackCd
            item.primarySourcePackQuantity = item.sources[0].packaging[0].ipPackQty;
            item.primarySourcePrice = item.sources[0].packaging[0].packPriceAmt;
         }
      }
-     // let site = this.siteItems.find((t) => t.dodaac === item.siteDodaac);
-     // if (site) {
-     //    item.siteName = site.name;
-     //    //this.log.debug("setting the site name");
-     // }
+     let site = siteItems.find((t) => t.dodaac === item.siteDodaac)
+     if (site) {
+        item.siteName = site.name;
+     }
 
   }
   return siteCatalogItems;
@@ -47,8 +47,6 @@ function getSiteCatalogRecordsByType(item, dispatchTo) {
     dispatch(dispatchTo({ records: [], loading: true }));
 
     let action = null;
-    // let errorMessage = `Failed to retreive ABi catalog records:\n\t Enterprise or product identifier not provided`;
-
     let hasProductIdentifier = (item.mmcProductIdentifier != null);
     if(hasProductIdentifier) {
       action = `getSiteCatalogByProductId?productSeqId=${item.mmcProductIdentifier}`;
@@ -62,7 +60,7 @@ function getSiteCatalogRecordsByType(item, dispatchTo) {
 
     return service.get(url, headers)
       .then((resp) => {
-        dispatch(dispatchTo({ records: setSiteNames(resp), loading: false }));
+        dispatch(dispatchTo({ records: setSiteNames(resp, getState), loading: false }));
       })
       .catch((error) => {
         dispatch(dispatchTo({ records: [], loading: false }));

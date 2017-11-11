@@ -11,17 +11,11 @@ import nav from '@redux/nav/reducer';
 import system from '@redux/system/reducer'
 
 // Combine all
-const appReducer = combineReducers({
+const rootReducer = combineReducers({
   oauth,
   abi,
   nav,
   system,
 });
-
-// Setup root reducer
-const rootReducer = (state, action) => {
-  const newState = (action.type === 'RESET') ? undefined : state;
-  return appReducer(newState, action);
-};
 
 export default rootReducer;

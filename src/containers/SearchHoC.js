@@ -26,8 +26,8 @@ export default (Comp) => {
       siteCatalogRecords: state.abi.siteCatalogRecords,
       relatedRecords: state.abi.relatedRecords,
       equivalentRecords: state.abi.equivalentRecords,
-      branchRecords: state.system.branchRecords,
-      loaded: state.system.loaded,
+      branch: state.system.branch,
+      sites: state.system.sites,
       loading: state.abi.loading,
    });
 
@@ -39,6 +39,7 @@ export default (Comp) => {
       getABiEquivalentProducts: ABiActions.getABiEquivalentProducts,
       getSiteCatalogRecords: ABiActions.getSiteCatalogRecords,
       getBranchServices: SystemActions.getBranchServices,
+      setSiteNamesFromBranchServices: SystemActions.setSiteNamesFromBranchServices,
    };
 
    //// The component we're mapping to

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, FlatList } from 'react-native';
-import { List, ListItem, Badge } from 'react-native-elements';
+import { List, ListItem, } from 'react-native-elements';
 
 import { Card } from '@ui/'
 import * as Utils from '@utils/'
@@ -15,20 +15,21 @@ class SiteCatalogListScreen extends Component {
    static propTypes = {
       getSiteCatalogRecords: PropTypes.func.isRequired,
       getBranchServices: PropTypes.func.isRequired,
-      loaded: PropTypes.bool.isRequired,
-      branchRecords: PropTypes.array.isRequired,
+      setSiteNamesFromBranchServices: PropTypes.func.isRequired,
    }
 
    constructor(props) {
       super(props)
    }
 
-   getBranchServices(item) {
-      // check if branch records have been loaded
-      if(!this.props.branchRecordsLoaded) {
-         this.props.getBranchServices();   
-      }
-      this.props.getSiteCatalogRecords(item);
+   getSiteCatalogRecords(item) {
+      this.props.getBranchServices()
+         .then(() => {
+            this.props.setSiteNamesFromBranchServices();
+         })  
+         .then(() => {
+            this.props.getSiteCatalogRecords(item);
+         })
    }
 
    item() {
@@ -38,18 +39,7 @@ class SiteCatalogListScreen extends Component {
    componentDidMount = () => {
       const item = this.item();
       if (item) {
-         this.getBranchServices(item);
-         // this.props.getBranchServices()
-         //    .then((results) => {
-         //       console.log(`branch count => ${results.length}`)      
-         //    })
-         //    .then(() => {
-         //       this.props.getSiteCatalogRecords(item);      
-         //    })
-         //    .catch((error) => {
-         //       console.error(`${error}`)   
-         //    })
-         
+         this.getSiteCatalogRecords(item);
       }
    }
 
