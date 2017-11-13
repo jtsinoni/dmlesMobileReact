@@ -1,24 +1,5 @@
 import * as types from '../types'
-import { ApiService } from '@lib/'
-import { AppConfig } from '@constants/';
-
-function getHeaders(getState, verb) {
-   let headers = {
-      'Authorization': `Token ${getState().oauth.token}`,
-      'Accept': 'application/json',
-      'ClientId': 'dmles',
-      'X-SSL-Client-S-DN': `${AppConfig.clientDN}`
-   }
-
-   if (verb === 'POST') {
-      headers["Content-Type"] = 'application/json';
-   }
-   return headers;
-}
-
-function getAPiService(service) {
-   return new ApiService(service);
-}
+import * as Common from '@redux/common/'
 
 export function setSiteNamesFromBranchServices() {
    return (dispatch, getState) => {
@@ -47,15 +28,12 @@ export function getBranchServices() {
          return Promise.resolve(true);
       }
 
-      let service = getAPiService('System');
+      let service = Common.getAPiService('System');
       let url = service.determineUrl('getServices');
-      let headers = getHeaders(getState, 'GET');
+      let headers = Common.getHeaders(getState, 'GET');
       return service.get(url, headers)
-         .then((response) => {
-            dispatch(setBranchServices(response, true));
-
-            return response;
-         })
+         .then(response => dispatch(setBranchServices(response, true)))
+         .then(response => response)
          .catch((error) => {
             dispatch(setBranchServices([], false));
             console.error(`Failed to retreive System Branch Services:\n\t ${error}`);

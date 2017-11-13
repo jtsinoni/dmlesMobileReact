@@ -1,24 +1,5 @@
 import * as types from '../types'
-import { ApiService } from '@lib/'
-import { AppConfig } from '@constants/';
-
-function getHeaders(getState, verb) {
-  let headers = {
-    'Authorization': `Token ${getState().oauth.token}`,
-    'Accept': 'application/json',
-    'ClientId': 'dmles',
-    'X-SSL-Client-S-DN': `${AppConfig.clientDN}`
-  }
-
-  if(verb === 'POST') {
-    headers["Content-Type"] = 'application/json';
-  }
-  return headers;
-}
-
-function getAPiService(service) {
-  return new ApiService(service);
-}
+import * as Common from '@redux/common/'
 
 function setSiteNames(response, getState) {
   let siteCatalogItems = [...response];
@@ -54,14 +35,13 @@ function getSiteCatalogRecordsByType(item, dispatchTo) {
       action = `getSiteCatalogByEnterpriseId?enterpriseProductIdentifier=${item.enterpriseProductIdentifier}`;
     }
 
-    let service = getAPiService('AbiSiteCatalog');
+    let service = Common.getAPiService('AbiSiteCatalog');
     let url = service.determineUrl(action);
-    let headers = getHeaders(getState, 'GET');
+    let headers = Common.getHeaders(getState, 'GET');
 
     return service.get(url, headers)
-      .then((resp) => {
-        dispatch(dispatchTo({ records: setSiteNames(resp, getState), loading: false }));
-      })
+      .then(resp => setSiteNames(resp, getState))
+      .then(resp => dispatch(dispatchTo({ records: resp, loading: false })))
       .catch((error) => {
         dispatch(dispatchTo({ records: [], loading: false }));
         console.error(`Failed to retreive ABi catalog records:\n\t ${error}`);
@@ -73,10 +53,10 @@ function getABiCatalogRecordsByQueryModel(queryModel, dispatchTo) {
   return (dispatch, getState) => {
     dispatch(dispatchTo({ records: [], loading: true }));
 
-    let service = getAPiService('AbiCatalog');
+    let service = Common.getAPiService('AbiCatalog');
     let url = service.determineUrl('getABiCatalogRecordESResults');
     let params = queryModel;
-    let headers = getHeaders(getState, 'POST');
+    let headers = Common.getHeaders(getState, 'POST');
 
     return service.post(url, params, headers)
       .then((resp) => {

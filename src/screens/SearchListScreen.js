@@ -92,7 +92,7 @@ class SearchListScreen extends Component {
 
       return (
          <ListItem
-            hideChevron={(Platform.OS === 'android') ? true : false}
+            hideChevron={true}
             title={item.longItemDescription}
             subtitle={subtitle}
             containerStyle={AppStyles.viewlistItemContainer}
@@ -104,7 +104,6 @@ class SearchListScreen extends Component {
 
    render = () => (
       <View style={AppStyles.viewContainer}>
-
          {this.props.records.total >= 0 ?
             <View>
                {this.renderHeader()}
