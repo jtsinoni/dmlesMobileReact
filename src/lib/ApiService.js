@@ -42,22 +42,6 @@ export class ApiService  {
         return url;
     };
 
-
-    getTokenViaOAuth(action, encodedDn) {
-        let url = this.determineUrl(action);
-        console.debug(`${this.apiServiceName} - BT getToken URL: ${url}`);
-
-        let headers = {
-            'Authorization': `Basic ${encodedDn}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'ClientId': 'dmles',
-            'X-SSL-Client-S-DN': `${AppConfig.clientDN}` 
-        };
-
-        return this.post(url, null, headers);                   
-    }
-
     get(url, headers) {
       return this.xhr(url, null, headers, 'GET');
     }

@@ -4,6 +4,7 @@ const app = {
   listItemBackground: '#E9EBEE',
   textColor:        '#000',
   backgroundColor:  '#fff',  
+  note: '#c5c5c5',
 };
 
 const brand = {

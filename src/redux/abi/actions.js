@@ -51,7 +51,8 @@ function getSiteCatalogRecordsByType(item, dispatchTo) {
 
 function getABiCatalogRecordsByQueryModel(queryModel, dispatchTo) {
   return (dispatch, getState) => {
-    dispatch(dispatchTo({ records: [], loading: true }));
+    let searchValue = queryModel['queryString'];
+    dispatch(dispatchTo({ records: [], loading: true, searchValue: searchValue }));
 
     let service = Common.getAPiService('AbiCatalog');
     let url = service.determineUrl('getABiCatalogRecordESResults');
@@ -60,10 +61,10 @@ function getABiCatalogRecordsByQueryModel(queryModel, dispatchTo) {
 
     return service.post(url, params, headers)
       .then((resp) => {
-        dispatch(dispatchTo({ records: resp, loading: false }));
+        dispatch(dispatchTo({ records: resp, loading: false, searchValue: searchValue }));
       })
       .catch((error) => {
-        dispatch(dispatchTo({ records: [], loading: false }));
+        dispatch(dispatchTo({ records: [], loading: false, searchValue: searchValue }));
         console.error(`Failed to retreive ABi records:\n\t ${error}`);
       });
   }
@@ -119,11 +120,12 @@ export function setSiteCatalogRecords(params) {
 }
 
 export function setABiCatalogRecords(params) {
-  let { records: catalogRecords, loading } = params;
+  let { records: catalogRecords, loading, searchValue } = params;
   return {
     type: types.GET_ABI_CATALOG_RECORDS,
     catalogRecords,
-    loading
+    loading,
+    searchValue,
   }
 }
 

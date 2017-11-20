@@ -9,6 +9,7 @@ import oauth from '@redux/oauth/reducer';
 import abi from '@redux/abi/reducer';
 import nav from '@redux/nav/reducer';
 import system from '@redux/system/reducer'
+import scanner from '@redux/scanner/reducer'
 
 // Combine all
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   abi,
   nav,
   system,
+  scanner,
 });
 
 export default rootReducer;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, } from 'react-native';
 
 import { SearchListScreen } from '@screens/';
+import { CatalogCard } from '@ui/'
 
 /* Component ==================================================================== */
 class RelatedProductsListScreen extends Component {
@@ -14,27 +14,25 @@ class RelatedProductsListScreen extends Component {
       super(props)
    }
 
-   productGroup() {
-      return this.props.navigation.state.params.productGroup || null;
+
+   item() {
+      return this.props.navigation.state.params.item || null;
    }
 
    componentDidMount = () => {
-      const productGroup = this.productGroup();
+      const productGroup = this.item().productGroup;
       if(productGroup) {
          this.props.getABiRelatedProducts(productGroup);
       }
    }
 
    render() {
-      if (!this.productGroup()) { return null }
-
       return (
-         <View>
-            <SearchListScreen {...this.props} 
-                              records={this.props.relatedRecords}
-                              detailsScreen='DetailsScreen'
-                              searchingText='Searching for related products ...' />
-         </View>
+         <SearchListScreen {...this.props} 
+                           records={this.props.relatedRecords}
+                           item={this.item()}
+                           detailsScreen='DetailsScreen'
+                           searchingText='Searching for related products ...' />
       )
    };
 }

@@ -1,9 +1,13 @@
 import { ApiService } from '@lib/'
 import { AppConfig } from '@constants/';
 
-export function getHeaders(getState, verb) {
+export function getHeaders(getState, verb, authType='Token', authTypeValue) {
+   if(!authTypeValue) {
+      authTypeValue = getState().oauth.token;
+   }
+
    let headers = {
-     'Authorization': `Token ${getState().oauth.token}`,
+     'Authorization': `${authType} ${authTypeValue}`,
      'Accept': 'application/json',
      'ClientId': 'dmles',
      'X-SSL-Client-S-DN': `${AppConfig.clientDN}`

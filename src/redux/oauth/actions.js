@@ -1,12 +1,16 @@
-import * as types from '../types'
-import { OAuthService, Base64Service, ApiService } from '@lib/'
+import { Base64Service } from '@lib/'
 import { AppConfig } from '@constants/';
+import * as Common from '@redux/common/'
+import * as types from '../types'
 
 export function getTokenViaOAuth(dn) {
   return (dispatch, getState) => {
     let encodedDn = Base64Service.b64EncodeUnicode(`${dn}:${AppConfig.OAuth.password}`);
-    let service = new ApiService('OAuth');
-    return service.getTokenViaOAuth("token", encodedDn)
+    let service = Common.getAPiService('OAuth');
+    let url = service.determineUrl('token');
+    let headers = Common.getHeaders(getState, 'POST', 'Basic', encodedDn);
+
+    return service.post(url, null, headers)
         .then((resp) => {
             dispatch(setTokenViaOAuth({token: resp.authctoken}));
         })

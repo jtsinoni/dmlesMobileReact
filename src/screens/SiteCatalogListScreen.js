@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, FlatList } from 'react-native';
-import { List, ListItem, } from 'react-native-elements';
 
-import { Card } from '@ui/'
+import { Card, CatalogCard } from '@ui/'
 import * as Utils from '@utils/'
 
 // Consts and Libs
@@ -24,11 +23,10 @@ class SiteCatalogListScreen extends Component {
 
    getSiteCatalogRecords(item) {
       this.props.getBranchServices()
-         .then(() => {
-            this.props.setSiteNamesFromBranchServices();
-         })  
-         .then(() => {
-            this.props.getSiteCatalogRecords(item);
+         .then(() => this.props.setSiteNamesFromBranchServices())  
+         .then(() => this.props.getSiteCatalogRecords(item))
+         .catch((error) => {
+            console.error(`${error}`)
          })
    }
 
@@ -43,11 +41,19 @@ class SiteCatalogListScreen extends Component {
       }
    }
 
+   renderHeader = () => {
+      return (
+         <CatalogCard item={this.item()} />
+      )
+   }
+
    renderFooter = () => {
       if (!this.props.loading) return null;
 
       return (
-         <Loading text={'Searching Site Catalog Records ...'} />
+         <View>   
+            <Loading text={'Searching Site Catalog Records ...'} />
+         </View>   
       );
    };
 
@@ -69,7 +75,7 @@ class SiteCatalogListScreen extends Component {
       let item = rowData.item;
       return (
          <Card>
-            <View style={AppStyles.paddingVertical}>
+            <View>
                {this.renderText(item.siteName, item.siteDodaac, false, true)}
                {this.renderText(item.itemId, 'Item')}
                {this.renderText(item.primarySupplier, 'Primary Supplier')}
@@ -83,24 +89,20 @@ class SiteCatalogListScreen extends Component {
    }
 
    render() {
-      return (
-         <View style={AppStyles.viewContainer}>
-            {this.renderFooter()}
-            {this.props.siteCatalogRecords.length >=0 ?
-               <View>
-                  <List containerStyle={AppStyles.viewContainer}>
-                     <FlatList
-                        data={this.props.siteCatalogRecords}
-                        renderItem={this.renderListItem}
-                        keyExtractor={item => item.id}
-                        ItemSeparatorComponent={this.renderSeparator}
-                     />
-                  </List>
-               </View>
-               : null
-            }
-         </View>
-      )
+      if(this.props.siteCatalogRecords.length > 0) {
+         return (
+            <View containerStyle={AppStyles.viewContainer}>
+               <CatalogCard item={this.item()} />
+               <FlatList
+                  data={this.props.siteCatalogRecords}
+                  renderItem={this.renderListItem}
+                  keyExtractor={item => item.id}
+                  ItemSeparatorComponent={this.renderSeparator} />
+            </View>
+         )      
+      } else {
+         return this.renderFooter();
+      }
    };
 }
 

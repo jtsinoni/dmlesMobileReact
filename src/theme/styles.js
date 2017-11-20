@@ -4,7 +4,7 @@ import Sizes from './sizes';
 
 export default {
   note: {
-      color: '#d3d3d3'
+      color: Colors.note,
   },
   appContainer: {
     backgroundColor: '#FFF',
@@ -255,7 +255,7 @@ export default {
     borderTopWidth: 1,
   },
 
-  // Card
+  // Cards
   card: {
     marginLeft: 0,
     marginRight: 0,
@@ -264,6 +264,20 @@ export default {
     padding: 10,
     borderColor: Colors.card,    
   }, 
+
+  catalogCard: {
+    borderColor: Colors.colors.primary,
+    borderWidth: 5,
+    marginBottom: 10,
+    view: {
+      flexDirection: 'row',
+      paddingBottom: 0,
+    },
+    badge: {
+      marginLeft: 10, 
+      backgroundColor: Colors.colors.primaryBlue
+    }     
+  },
   
   // Button Group
   buttonGroup: {

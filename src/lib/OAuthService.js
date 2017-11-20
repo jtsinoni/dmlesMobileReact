@@ -8,12 +8,12 @@ export class OAuthService {
         console.debug(`${this.serviceName} - Start`);
     }
 
-    getTokenViaOAuth(dn) {
-        let encodedDn = this.Base64Service.b64EncodeUnicode(`${dn}:${AppConfig.OAuth.password}`);
+    // getTokenViaOAuth(dn) {
+    //     let encodedDn = this.Base64Service.b64EncodeUnicode(`${dn}:${AppConfig.OAuth.password}`);
 
 
-        return ApiService.getTokenViaOAuth("token", encodedDn);
-    }
+    //     return ApiService.getTokenViaOAuth("token", encodedDn);
+    // }
     // public isTokenExpired(token: string): boolean {
     //     return this.jwtService.isTokenExpired(token);
     // }

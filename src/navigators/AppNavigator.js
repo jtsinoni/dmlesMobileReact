@@ -9,6 +9,7 @@ import { RelatedProductsListScreen, EquivalentProductsListScreen,
          EquivalentProductsScreen, SiteCatalogListScreen,
          SearchScreen, ProductDetailsScreen, DetailsScreen, }  from '@screens/';
 import { AppConfig } from '@constants/';
+import { BarcodeScannerService } from '@lib/'
 
 const navigationConfig = {
   navigationOptions: AppConfig.navbarProps
@@ -51,7 +52,13 @@ export const AppNavigator = StackNavigator({
       navigationOptions: {
         headerTitle: AppConfig.siteCatalogScreenTitleName,
       },
-    },             
+    }, 
+    BarcodeScannerService: { 
+      screen: SearchHoC(BarcodeScannerService),
+      navigationOptions: {
+        headerTitle: 'Scan Barcode',
+      },
+    },                 
 }, navigationConfig );
 
 const AppWithNavigationState = ({ dispatch, nav }) => (

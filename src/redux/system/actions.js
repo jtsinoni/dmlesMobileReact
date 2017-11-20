@@ -1,14 +1,17 @@
 import * as types from '../types'
 import * as Common from '@redux/common/'
 
-export function setSiteNamesFromBranchServices() {
-   return (dispatch, getState) => {
-      if (getState().system.sites.loaded) {
-         return Promise.resolve(true);
-      }
-      if (getState().system.branch.loaded) {
-         let branchServices = [...getState().system.branch.records];
-         let sites = [];
+function extractSites(getState) {
+   let branchServices = [...getState().system.branch.records];
+   let sites = [];
+
+   branchServices
+      .map(branch => branch.regions
+      .map(region => region.sites
+      .map(site => sites.push(site))))   
+      
+   // This is how it was         
+      /*
          for (let branch of branchServices) {
             for (let region of branch.regions) {
                for (let site of region.sites) {
@@ -16,12 +19,21 @@ export function setSiteNamesFromBranchServices() {
                }
             }
          }
+*/
+
+  return sites;    
+}
+export function setSiteNamesFromBranchServices() {
+   return (dispatch, getState) => {
+      if (getState().system.sites.loaded) {
+         return Promise.resolve(true);
+      } else {
+         let sites = extractSites(getState);
          dispatch(setSiteNames(sites, true));
-      }         
+      }
    }
 }
-   
-
+ 
 export function getBranchServices() {
    return (dispatch, getState) => {
       if (getState().system.branch.loaded) {

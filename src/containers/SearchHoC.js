@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as OAuthActions from '@redux/oauth/actions'
 import * as ABiActions from '@redux/abi/actions';
 import * as SystemActions from '@redux/system/actions';
+import * as ScannerActions from '@redux/scanner/actions';
 
 export default (Comp) => {
    class SearchAware extends Component {
@@ -19,19 +20,21 @@ export default (Comp) => {
       }
    };
 
-   // What data from the store shall we send to the component?
+   // What data from the store shall we send to the components?
    const mapStateToProps = state => ({
       token: state.oauth.token,
       catalogRecords: state.abi.catalogRecords,
       siteCatalogRecords: state.abi.siteCatalogRecords,
       relatedRecords: state.abi.relatedRecords,
+      loading: state.abi.loading,
+      searchValue: state.abi.searchValue,
       equivalentRecords: state.abi.equivalentRecords,
       branch: state.system.branch,
       sites: state.system.sites,
-      loading: state.abi.loading,
+      barcode: state.scanner.barcode,
    });
 
-   // Any actions to map to the component?
+   // Any actions to map to the components?
    const mapDispatchToProps = {
       getTokenViaOAuth: OAuthActions.getTokenViaOAuth,
       getABiCatalogRecords: ABiActions.getABiCatalogRecords,
@@ -40,6 +43,7 @@ export default (Comp) => {
       getSiteCatalogRecords: ABiActions.getSiteCatalogRecords,
       getBranchServices: SystemActions.getBranchServices,
       setSiteNamesFromBranchServices: SystemActions.setSiteNamesFromBranchServices,
+      setBarcode: ScannerActions.setBarcode,
    };
 
    //// The component we're mapping to

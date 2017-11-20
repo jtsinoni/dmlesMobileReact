@@ -2,12 +2,7 @@ import * as types from '../types'
 
 // Set initial state
 const initialState = {
-  siteCatalogRecords: {
-    total: -1, 
-    hits: { 
-      fields: [] 
-    }
-  },  
+  siteCatalogRecords: [],  
   catalogRecords: {
     total: -1, 
     hits: { 
@@ -27,6 +22,7 @@ const initialState = {
     }
   },  
   loading: false,
+  searchValue: null,
 };
 
 export default function abiReducer(state = initialState, action) {
@@ -44,6 +40,7 @@ export default function abiReducer(state = initialState, action) {
         ...state,
         catalogRecords: action.catalogRecords,
         loading: action.loading,
+        searchValue: action.searchValue,
       };
     }
     case types.GET_ABI_EQUIVALENT_RECORDS : {

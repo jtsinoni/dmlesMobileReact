@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, } from 'react-native';
 
 import { SearchListScreen } from '@screens/';
+import { CatalogCard } from '@ui/'
 
 /* Component ==================================================================== */
 class EquivalentProductsListScreen extends Component {
@@ -14,27 +14,24 @@ class EquivalentProductsListScreen extends Component {
       super(props)
    }
 
-   productSubstituteGroup() {
-      return this.props.navigation.state.params.productSubstituteGroup || null;
-   }
+   item() {
+      return this.props.navigation.state.params.item || null;
+   }   
 
    componentDidMount = () => {
-      const productSubstituteGroup = this.productSubstituteGroup();
+      const productSubstituteGroup = this.item().productSubstituteGroup;
       if(productSubstituteGroup) {
          this.props.getABiEquivalentProducts(productSubstituteGroup);
       }
    }
 
    render() {
-      if (!this.productSubstituteGroup()) { return null }
-
       return (
-         <View>
-            <SearchListScreen {...this.props} 
-                              records={this.props.equivalentRecords}
-                              detailsScreen='DetailsScreen'
-                              searchingText='Searching for equivalent products ...' />
-         </View>
+         <SearchListScreen {...this.props} 
+                           records={this.props.equivalentRecords}
+                           item={this.item()}
+                           detailsScreen='DetailsScreen'
+                           searchingText='Searching for equivalent products ...' />
       )
    };
 }
