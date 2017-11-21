@@ -24,26 +24,19 @@ class SearchScreen extends Component {
     super(props)
     this.state = {
       searchValue: null,
-      isBarcodeSearch: true,
     }
   }
 
+  setSearchValueFromBarcode = (barcode) => {
+    this.setState({ searchValue: barcode });
+  }  
+
   scan = () => {
-    console.log(`in scan method`)
-    this.props.navigation.navigate('BarcodeScannerService')
+    this.props.navigation.navigate('BarcodeScannerService', { callback: this.setSearchValueFromBarcode })
   }
 
   searchPressed() {
     this.props.getABiCatalogRecords(this.state.searchValue)
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    let value = nextProps.searchValue || nextProps.barcode
-    if(value) {
-      this.setState({ searchValue: value});
-      console.log(`value => ${value}`)
-      // console.log(`nextProps.barcode => ${nextProps.barcode}`)  
-    }    
   }
 
   componentDidMount = () => {
@@ -53,15 +46,12 @@ class SearchScreen extends Component {
   }
 
   render = () => {
-    // console.log(`searchValue => ${this.state.searchValue}`)
-    // console.log(`state => ${JSON.stringify(this.state)}`)
-
     return (
       <View>
         <FormInput
           returnKeyType="search"
           placeholder="Search"
-          onChangeText={(searchValue) => this.setState({ searchValue, isBarcodeSearch: false })}
+          onChangeText={(searchValue) => this.setState({ searchValue })}
           value={this.state.searchValue}
         />
         <Spacer />
@@ -80,12 +70,10 @@ class SearchScreen extends Component {
           title={'Scan'}
           accessibilityLabel="Barcode Scan" />
 
-
         <SearchListScreen {...this.props}
           records={this.props.catalogRecords}
           detailsScreen='ProductDetailsScreen'
           searchingText='Searching ABi Catalog ...' />
-
       </View>
     )
   }

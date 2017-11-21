@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import {
-   Text,
-   View,
-   StyleSheet
-} from 'react-native';
-
+import { Text, View, StyleSheet } from 'react-native';
 import Camera from 'react-native-camera';
 import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types';
-
 
 export class BarcodeScannerService extends Component {
    static propTypes = {
@@ -21,6 +15,10 @@ export class BarcodeScannerService extends Component {
          read: null,
       }
    }
+
+   callbackFromParams() {
+      return this.props.navigation.state.params.callback || null;
+    }   
 
    delay = (time) => {
       return new Promise(function (resolve, reject) {
@@ -35,7 +33,11 @@ export class BarcodeScannerService extends Component {
       if (this.state.read == scanner.data) return;
       this.setState({ read: scanner.data });
 
-      // Whatever you wanna do with the scanned barcode
+      callback = this.callbackFromParams();
+      if(callback) {
+         callback(scanner.data)
+      }
+
       this.props.setBarcode(scanner.data)
       this.props.navigation.dispatch(NavigationActions.back())
    };
