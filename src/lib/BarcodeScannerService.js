@@ -50,12 +50,8 @@ export class BarcodeScannerService extends Component {
                onBarCodeRead={this.onBarCodeRead}
                ref={cam => this.camera = cam}
                aspect={Camera.constants.Aspect.fill}
-               barcodeFinderVisible={true}
-            >
-               <Text style={{
-                  backgroundColor: 'white'
-               }}>{this.state.qrcode}</Text>
-            </Camera>
+               barcodeScannerEnabled={true}
+            />
          </View>
       )
    }
@@ -66,10 +62,12 @@ const styles = StyleSheet.create({
    container: {
       flex: 1,
       flexDirection: 'row',
+      alignItems: 'center', 
    },
    preview: {
       flex: 1,
       justifyContent: 'flex-end',
-      alignItems: 'center'
+      alignItems: 'center',
+      height: 200, 
    }
 });
