@@ -25,11 +25,11 @@ export default {
   },
 
   // TODO: Get from UtilService (need to convert first)
-  host: 'http://10.0.0.206:8080/',
+  host: 'http://192.168.1.13:8080/',
   clientLogFileName: 'client.log',
   clientDN: 'CN=TSINONIS.JOHN.NMN.1401922977,OU=CONTRACTOR,OU=PKI,OU=DoD,O=U.S. Government,C=US',
   apiHosts: {
-    btBaseUrl: 'http://10.0.0.206:8080/'
+    btBaseUrl: 'http://192.168.1.13:8080/'
   },
   OAuth: {
     userName: 'user.admin.123',

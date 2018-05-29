@@ -15,6 +15,8 @@ import { BarcodeScannerService } from '@lib/'
 
 /* Component ==================================================================== */
 class SearchScreen extends Component {
+  
+
   static propTypes = {
     getTokenViaOAuth: PropTypes.func.isRequired,
     getABiCatalogRecords: PropTypes.func.isRequired,
